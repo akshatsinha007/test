@@ -1,0 +1,33 @@
+name: Sync issue to Azure DevOps work item	
+
+on:	
+  issues:	
+    types:	
+      [opened, labeled, edited]	
+
+jobs:	
+  create_issues:	
+    runs-on: ubuntu-latest	
+    steps:	
+
+      - if: github.event.label.name == 'pager-duty'	
+        name: custom issues	
+        env:	
+          DISCORD_WEBHOOK: ${{ secrets.GH_ISSUES_DISCORD_WEBHOOK }}	
+          DISCORD_WEBHOOK_FORUM: ${{ secrets.PAGERDUTY_DISCORD_WEBHOOK }}	
+          ENABLE_FORUM: true	
+
+        uses: devtron-labs/action-discord@master	
+        with:	
+          args: " ${{ github.event.issue.title }} ${{ github.event.issue.html_url }}"	
+
+      - name: print all env 
+        env:	
+          DISCORD_WEBHOOK: ${{ secrets.GH_ISSUES_DISCORD_WEBHOOK }}	
+          DISCORD_WEBHOOK_FORUM: ${{ secrets.PAGERDUTY_DISCORD_WEBHOOK }}	
+
+        run: |
+          echo ${{ contains(github.event.issue.labels.*.name, 'pager-duty')  }}
+
+          echo ${{ secrets.GH_ISSUES_DISCORD_WEBHOOK }}	
+          echo ${{ secrets.PAGERDUTY_DISCORD_WEBHOOK }}	
