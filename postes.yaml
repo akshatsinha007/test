@@ -67,7 +67,7 @@ spec:
           image: mirror.gcr.io/postgres:14
           imagePullPolicy: IfNotPresent
           ports:
-            - name: postgres
+            - name: tcp-postgresql
               containerPort: 5432
               protocol: TCP
           env:
