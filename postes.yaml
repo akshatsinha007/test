@@ -115,9 +115,6 @@ spec:
             runAsUser: 999
           image: quay.io/devtron/postgres:14.9
           imagePullPolicy: IfNotPresent
-          envFrom:
-            - configMapRef:
-                name: devtron-common-cm
           volumeMounts:
             - mountPath: /customscripts
               name: customscripts-volume
